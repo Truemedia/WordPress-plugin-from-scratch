@@ -14,6 +14,8 @@ Author URI: http://mediacityonline.net
 
 // register all hooks
 register_activation_hook(__FILE__, 'dbsync_install');
+register_deactivation_hook(__FILE__, 'dbsync_uninstall');
+
 function dbsync_install(){
 	global $wpdb;
 	global $dbsync_db_version;
@@ -33,5 +35,14 @@ function dbsync_install(){
 	dbDelta($sql);
 	
 	add_option("dbsync_db_version", $dbsync_db_version);
+}
+function dbsync_uninstall(){
+	global $wpdb;
+	global $dbsync_db_version;
+	
+	// DB Sync tasks table
+	$dbsync_tt_table = $wpdb->prefix."dbsync_tasks";
+	
+	$wpdb->query('DROP TABLE IF EXISTS '.$dbsync_tt_table);
 }
 ?>
