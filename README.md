@@ -1,4 +1,4 @@
-WordPress-plugin-from-scratch
+WordPress - Creating plugin from scratch
 =============================
 
-Git repo of code from tutorials on how to create WordPress plugin fro scratch (all WP versions)
+Git repo of code from tutorials on how to create WordPress plugin from scratch (all WP versions)
