@@ -15,6 +15,7 @@ Author URI: http://mediacityonline.net
 // register all hooks
 register_activation_hook(__FILE__, 'dbsync_install');
 register_deactivation_hook(__FILE__, 'dbsync_uninstall');
+add_shortcode('copyright_disclaimer', 'copyright_shortz');
 
 function dbsync_install(){
 	global $wpdb;
@@ -44,5 +45,15 @@ function dbsync_uninstall(){
 	$dbsync_tt_table = $wpdb->prefix."dbsync_tasks";
 	
 	$wpdb->query('DROP TABLE IF EXISTS '.$dbsync_tt_table);
+}
+
+// [copyright_disclaimer license="gpl" copyright_holder=""]
+function copyright_shortz( $atts ) {
+	extract( shortcode_atts( array(
+		'license' => 'gpl',
+		'copyright_holder' => ''
+	), $atts ) );
+
+	return "This content is licensed under the {$license}, copyright 2012 {$copyright_holder}";
 }
 ?>
