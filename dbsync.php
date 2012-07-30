@@ -36,6 +36,7 @@ function dbsync_install(){
 	dbDelta($sql);
 	
 	add_option("dbsync_db_version", $dbsync_db_version);
+	dbsync_theme_additional();
 }
 function dbsync_uninstall(){
 	global $wpdb;
@@ -45,6 +46,7 @@ function dbsync_uninstall(){
 	$dbsync_tt_table = $wpdb->prefix."dbsync_tasks";
 	
 	$wpdb->query('DROP TABLE IF EXISTS '.$dbsync_tt_table);
+	dbsync_theme_subtractextras();
 }
 
 // [copyright_disclaimer license="gpl" copyright_holder=""]Content[/copyright_disclaimer]
@@ -55,5 +57,28 @@ function copyright_shortz( $atts, $content=null ) {
 	), $atts ) );
 
 	return "This content is licensed under the {$license}, copyright 2012 {$copyright_holder} <p style='color: red;'>" . $content . "</p>";
+}
+function dbsync_theme_additional(){
+	/* copy template file from plugin to current theme directory */
+	$file_to_add = ABSPATH . "/wp-content/plugins/dbsync/dbsync_pagetemplate.php";
+	$duplicated_dirfilename = get_template_directory(). "/dbsync_pagetemplate.". strtolower(trim(get_current_theme())) .".php";
+	if(copy($file_to_add, $duplicated_dirfilename)){
+		// backwards compatability
+		$data = file_get_contents($file_to_add);
+		if($data == false){
+			return false;	
+		}
+
+		$handle = fopen($duplicated_dirfilename, "w");
+		fwrite($handle, $data);
+		fclose($handle);
+	}
+}
+function dbsync_theme_subtractextras(){
+	/* delete old file */
+	$file_to_delete = get_template_directory(). "/dbsync_pagetemplate.". strtolower(trim(get_current_theme())) .".php";
+	$fh = fopen($file_to_delete, 'w') or die("can't open file");
+	fclose($fh);
+	unlink($file_to_delete);	
 }
 ?>
