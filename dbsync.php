@@ -12,9 +12,8 @@ Version 1.0
 Author URI: http://mediacityonline.net
 */
 
-include WP_CONTENT_DIR."/plugins/dbsync/activate.php";
-include WP_CONTENT_DIR."/plugins/dbsync/deactivate.php";
-include WP_CONTENT_DIR."/plugins/dbsync/shortz.php";
+// include all other files for the plugin, from this include file
+include WP_CONTENT_DIR."/plugins/dbsync/includes.php";
 
 // register all hooks
 register_activation_hook(__FILE__, 'dbsync_install');
@@ -42,5 +41,5 @@ function dbsync_theme_subtractextras(){
 	$fh = fopen($file_to_delete, 'w') or die("can't open file");
 	fclose($fh);
 	unlink($file_to_delete);	
-}
+}	
 ?>
