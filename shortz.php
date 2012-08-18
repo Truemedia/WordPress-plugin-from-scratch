@@ -8,6 +8,6 @@ function copyright_shortz( $atts, $content=null ) {
 		'copyright_holder' => ''
 	), $atts ) );
 
-	return "This content is licensed under the {$license}, copyright 2012 {$copyright_holder} <p style='color: red;'>" . $content . "</p>";
+	return "<div id='dbsync_licensecopyright'>This content is licensed under the {$license}, copyright 2012 {$copyright_holder}</div> <p id='info_distrib_notice'>" . $content . "</p>";
 }
 ?>
