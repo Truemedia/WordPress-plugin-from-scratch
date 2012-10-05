@@ -19,6 +19,11 @@ include WP_CONTENT_DIR."/plugins/dbsync/includes.php";
 register_activation_hook(__FILE__, 'dbsync_install');
 register_deactivation_hook(__FILE__, 'dbsync_uninstall');
 
+/* hook into action links to tweak them */
+add_filter( 'plugin_action_links', 'dbsync_plugin_action_links', 10, 2 );
+/* hook into meta links to tweak them */
+add_filter( 'plugin_row_meta', 'dbsync_plugin_meta_links', 10, 2 );
+
 function dbsync_theme_additional(){
 	/* copy template file from plugin to current theme directory */
 	$file_to_add = ABSPATH . "/wp-content/plugins/dbsync/dbsync_pagetemplate.php";
@@ -41,5 +46,5 @@ function dbsync_theme_subtractextras(){
 	$fh = fopen($file_to_delete, 'w') or die("can't open file");
 	fclose($fh);
 	unlink($file_to_delete);	
-}	
+}
 ?>
